@@ -101,34 +101,44 @@
                 <label for="terms">Li e aceito os Termos de Uso</label>
             </div>
             <div class="form-group">
-                <button type="button" onclick="generateAndDownloadFile()">Avançar</button>
+                <button type="button" onclick="submitForm()">Enviar</button>
             </div>
         </form>
     </div>
 
     <script>
-        function generateAndDownloadFile() {
+        function submitForm() {
             // Coleta os valores dos campos do formulário
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const cpf = document.getElementById('cpf').value;
 
-            // Cria o conteúdo do arquivo
-            const fileContent = `Nome Completo: ${name}\nEmail: ${email}\nSenha: ${password}\nCPF: ${cpf}`;
-            
-            // Cria um blob com o conteúdo do arquivo
-            const blob = new Blob([fileContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
+            // Cria um objeto com os dados
+            const formData = {
+                name: name,
+                email: email,
+                password: password,
+                cpf: cpf
+            };
 
-            // Cria um link para download e clica nele
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'dados.txt';
-            a.click();
-
-            // Libera o URL do blob
-            URL.revokeObjectURL(url);
+            // Envia os dados para o servidor usando Fetch API
+            fetch('https://seu-servidor.com/api/receber-dados', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Exibe uma mensagem de sucesso ou redireciona
+                alert('Dados enviados com sucesso!');
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+                alert('Ocorreu um erro ao enviar os dados.');
+            });
         }
     </script>
 </body>
