@@ -28,6 +28,7 @@
         }
         .form-group {
             margin-bottom: 15px;
+            text-align: center; /* Alinha o conteúdo centralmente */
         }
         .form-group label {
             display: block;
@@ -37,13 +38,15 @@
         .form-group input[type="email"],
         .form-group input[type="password"] {
             width: 100%;
+            max-width: 300px; /* Limita a largura máxima dos campos de entrada */
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            margin: 0 auto; /* Centraliza os campos de entrada */
         }
         .form-group input[type="checkbox"] {
-            margin-right: 10px;
+            margin: 0 10px 0 0;
         }
         .form-group button {
             width: 100%;
@@ -62,9 +65,14 @@
         .form-group .terms {
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-top: 10px;
         }
         .form-group .terms input[type="checkbox"] {
             margin-right: 10px;
+        }
+        .form-group .terms label {
+            margin: 0;
         }
     </style>
 </head>
