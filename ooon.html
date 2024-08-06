@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de Imagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-group input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        .form-group button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #28a745;
+        }
+        .loading {
+            color: #007bff;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Envie Sua Imagem</h1>
+        <form id="uploadForm" action="http://localhost:3000/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">Selecione uma imagem:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Enviar Imagem</button>
+            </div>
+            <div class="message" id="message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const messageElement = document.getElementById('message');
+
+            // Display loading message
+            messageElement.textContent = 'Enviando imagem...';
+            messageElement.className = 'loading';
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())  // Assuming the server responds with JSON
+            .then(data => {
+                if (data.success) {
+                    messageElement.textContent = data.message || 'Imagem enviada com sucesso!';
+                    messageElement.style.color = '#28a745'; // Verde para sucesso
+                } else {
+                    messageElement.textContent = data.message || 'Erro ao enviar a imagem.';
+                    messageElement.style.color = '#dc3545'; // Vermelho para erro
+                }
+            })
+            .catch(error => {
+                messageElement.textContent = 'Erro ao enviar a imagem.';
+                messageElement.style.color = '#dc3545'; // Vermelho para erro
+            });
+        });
+    </script>
+</body>
+</html>
