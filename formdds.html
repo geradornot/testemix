@@ -28,7 +28,7 @@
         }
         .form-group {
             margin-bottom: 15px;
-            text-align: center; /* Alinha o conteúdo centralmente */
+            text-align: center;
         }
         .form-group label {
             display: block;
@@ -38,12 +38,12 @@
         .form-group input[type="email"],
         .form-group input[type="password"] {
             width: 100%;
-            max-width: 300px; /* Limita a largura máxima dos campos de entrada */
+            max-width: 300px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            margin: 0 auto; /* Centraliza os campos de entrada */
+            margin: 0 auto;
         }
         .form-group input[type="checkbox"] {
             margin: 0 10px 0 0;
@@ -79,31 +79,67 @@
 <body>
     <div class="form-container">
         <h2>Formulário de Candidatura</h2>
-        <form action="#" method="post">
+        <form id="job-form">
             <div class="form-group">
                 <label for="name">Nome Completo:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" required aria-required="true">
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required aria-required="true">
             </div>
             <div class="form-group">
                 <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required aria-required="true">
             </div>
             <div class="form-group">
                 <label for="cpf">CPF:</label>
-                <input type="text" id="cpf" name="cpf" required>
+                <input type="text" id="cpf" name="cpf" required aria-required="true">
             </div>
             <div class="form-group terms">
-                <input type="checkbox" id="terms" name="terms" required
+                <input type="checkbox" id="terms" name="terms" required aria-required="true">
                 <label for="terms">Li e aceito os Termos de Uso</label>
             </div>
             <div class="form-group">
-                <button type="button" onclick="window.location.href='https://geradornot.github.io/testemix/documentos.html';">Avançar</button>
+                <button type="button" onclick="submitForm()">Enviar</button>
             </div>
         </form>
     </div>
+
+    <script>
+        function submitForm() {
+            // Coleta os valores dos campos do formulário
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const cpf = document.getElementById('cpf').value;
+
+            // Cria um objeto com os dados
+            const formData = {
+                name: name,
+                email: email,
+                password: password,
+                cpf: cpf
+            };
+
+            // Envia os dados para o servidor usando Fetch API
+            fetch('https://seu-servidor.com/api/receber-dados', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Exibe uma mensagem de sucesso ou redireciona
+                alert('Dados enviados com sucesso!');
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+                alert('Ocorreu um erro ao enviar os dados.');
+            });
+        }
+    </script>
 </body>
 </html>
