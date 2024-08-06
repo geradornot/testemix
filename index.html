@@ -18,36 +18,43 @@
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 500px;
+            padding: 30px;
+            max-width: 600px;
             width: 100%;
+            box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
         }
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 20px;
             color: #333;
+            text-align: center; /* Centraliza o título horizontalmente */
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin-bottom: 10px;
             color: #555;
         }
         .form-group input[type="file"] {
             display: block;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 20px;
+            border: 2px solid #ddd;
             border-radius: 4px;
             background: #fafafa;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group {
+            display: flex;
+            justify-content: center; /* Centraliza o botão horizontalmente */
         }
         .form-group button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 15px 25px;
+            font-size: 18px;
             color: #fff;
             background-color: #007bff;
             border: none;
@@ -60,18 +67,23 @@
         }
         .message {
             margin-top: 20px;
-            font-size: 16px;
-            color: #28a745;
+            font-size: 18px;
+            text-align: center; /* Centraliza as mensagens horizontalmente */
         }
         .loading {
             color: #007bff;
-            font-size: 16px;
+        }
+        .success {
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Envie Sua Imagem</h1>
+        <h1>Envie Sua Imagem de Identidade</h1>
         <form id="uploadForm" action="http://localhost:3000/upload" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="image">Selecione uma imagem:</label>
@@ -93,7 +105,7 @@
 
             // Display loading message
             messageElement.textContent = 'Enviando imagem...';
-            messageElement.className = 'loading';
+            messageElement.className = 'message loading';
 
             fetch(this.action, {
                 method: 'POST',
@@ -103,15 +115,15 @@
             .then(data => {
                 if (data.success) {
                     messageElement.textContent = data.message || 'Imagem enviada com sucesso!';
-                    messageElement.style.color = '#28a745'; // Verde para sucesso
+                    messageElement.className = 'message success'; // Green for success
                 } else {
                     messageElement.textContent = data.message || 'Erro ao enviar a imagem.';
-                    messageElement.style.color = '#dc3545'; // Vermelho para erro
+                    messageElement.className = 'message error'; // Red for error
                 }
             })
             .catch(error => {
                 messageElement.textContent = 'Erro ao enviar a imagem.';
-                messageElement.style.color = '#dc3545'; // Vermelho para erro
+                messageElement.className = 'message error'; // Red for error
             });
         });
     </script>
